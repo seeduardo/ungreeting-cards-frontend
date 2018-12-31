@@ -19,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(json =>
             json.forEach(category => {
                 const markup = `
-        <li>
-          <h3>${category.name}
-           
-          </h3>
-        </li>`;
+        <div class= 'square'>
+          <h3>${category.name}</h3>
+        </div>`;
 
                 document.querySelector('#categories-list').innerHTML += markup;
             })
