@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const endPoint = 'http://localhost:3000/api/v1/categories';
+    const addBtn = document.querySelector('#new-card-btn');
+    const cardForm = document.querySelector('.container');
+    const realForm = document.querySelector(".add-card-form");
+    let addCard = false;
     const categoryListEl = document.querySelector('#categories-list')
     const cardListEl = document.querySelector('#greeting-card-list')
     // API.getCategories()
@@ -15,23 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
     //     }
     // ))
 
+
     fetch(endPoint)
-        .then(res => res.json())
-        .then(json =>
-            json.forEach(category => {
-                const markup = `
-        <div class= 'square' id= 'category-${category.id}'>
-          <h3>${category.name}</h3>
-        </div>`;
-
-                categoryListEl.innerHTML += markup;
-                const allCategoryEls = document.querySelectorAll('.square');
-                allCategoryEls.forEach(singleCategoryEl => {
-                  singleCategoryEl.addEventListener('click', (event) => handleSingleCategoryClick(event));
-                })
-
-            })
-        );
+    .then(res => res.json())
+    .then(json => {
+          json.forEach(category => {
+          const markup = `
+            <div class= 'square' id= 'category-${category.id}'>
+              <h3>${category.name}</h3>
+            </div>`;
+          categoryListEl.innerHTML += markup;
+          const allCategoryEls = document.querySelectorAll('.square');
+          allCategoryEls.forEach(singleCategoryEl => {
+            singleCategoryEl.addEventListener('click', (event) => handleSingleCategoryClick(event));
+          });
+        });
+      });
 
     const handleSingleCategoryClick = (event) => {
         let categoryID = event.path[0].id.replace(/\D/g,'')
@@ -48,10 +51,58 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>${greeting_card.title}</h3>
             <h4>${greeting_card.description}</h4>
           </div>`;
-          // cardListEl.style.background =`${greeting_card.image}`
+          cardListEl.style.image_background =`${greeting_card.image}`
           cardListEl.innerHTML += markup;
         });
-        
+
     };
+
+    // const renderSingleCard = (card) => {
+    // //   inside here create all the elements for a single card and I've already set up the function for a new card
+    // }
+
+    addBtn.addEventListener('click', () => {
+        addCard = !addCard
+        if (addCard) {
+            cardForm.style.display = 'block'
+            // event listener here
+            realForm.addEventListener('submit', createNewCard)
+        } else {
+            cardForm.style.display = 'none'
+        }
+    })
+
+    function createNewCard(e) {
+        e.preventDefault()
+
+        let inputs = document.querySelectorAll(".input-text");
+        let title = inputs[0].value;
+        let description = inputs[1].value;
+        let image = inputs[2].value;
+        let category = inputs[3].value
+
+
+        let data = {
+            title: title,
+            description: description,
+            image: image,
+            category_id: category,
+        }
+
+        let fetchData = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+
+        fetch(url, fetchData)
+            .then(resp => resp.json())
+            .then(renderSingleCard)
+
+
+    }
 
 });
