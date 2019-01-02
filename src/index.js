@@ -44,18 +44,36 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderCategory = singleCategory => {
-        categoryListEl.style.display ='none';
+        categoryListEl.style.display = 'none';
+        cardListEl.innerHTML =  '';
         singleCategory.greeting_cards.forEach(greeting_card => {
           const markup = `
-          <div class= 'card' id= 'greeting-card-${greeting_card.id}'>
+          <div class= 'card card-image' id= 'greeting-card-${greeting_card.id}'>
             <h3>${greeting_card.title}</h3>
             <h4>${greeting_card.description}</h4>
           </div>`;
-          cardListEl.style.image_background =`${greeting_card.image}`
           cardListEl.innerHTML += markup;
+          let cardImage = document.querySelector(`#greeting-card-${greeting_card.id}`);
+          cardImage.style.backgroundImage =`url(${greeting_card.image})`;
+
+            // <p>Still feeling mean and want to see all of the Card Categories again? Just click <p id='back-to-categories'><strong>HERE</strong>.</p>
         });
 
+        let backToCategoriesEl = document.createElement('p');
+        backToCategoriesEl.setAttribute("id", "back-to-categories")
+        backToCategoriesEl.innerHTML = "Still feeling mean and want to see all of the Card Categories again? Just click <strong>HERE</strong>."
+        cardListEl.appendChild(backToCategoriesEl);
+        let backToCategories = document.querySelector('#back-to-categories');
+        backToCategories.addEventListener('click', event =>
+          handleBackToCategoriesClick(event));
+        cardListEl.style.display = 'block';
     };
+
+    const handleBackToCategoriesClick = event => {
+        cardListEl.style.display = 'none';
+        categoryListEl.style.display = 'block';
+    };
+
 
     // const renderSingleCard = (card) => {
     // //   inside here create all the elements for a single card and I've already set up the function for a new card

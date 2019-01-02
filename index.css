@@ -51,6 +51,11 @@ transition: background 0.6s;
   -moz-transition: background 0.6s;
 }
 
+.card-image {
+  background-position: center;
+  background-size: contain;
+}
+
 button {
   position: relative;
   background-color: #426581;
