@@ -58,10 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class='card card-image' id='greeting-card-${greeting_card.id}'>
                 <h3>${greeting_card.title}</h3>
                 <h4>${greeting_card.description}</h4>
+                <button class='edit-btn' id='edit-btn-${greeting_card.id}'>Customize this Card!</button>
               </div>`;
               cardListEl.innerHTML += markup;
               let cardImage = document.querySelector(`#greeting-card-${greeting_card.id}`);
               cardImage.style.backgroundImage =`url(${greeting_card.image})`;
+              // let cardEditButton = document.querySelector(`#edit-btn-${greeting_card.id}`);
+              // cardEditButton.addEventListener('click', (event) => {
+              //   handleEditButtonClick(event)
+              // });
           });
           let backToCategoriesEl = document.createElement('p');
           backToCategoriesEl.setAttribute("id", "back-to-categories")
@@ -76,6 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
           cardListEl.style.display = 'none';
           categoryListEl.style.display = 'block';
       };
+
+      // const handleEditButtonClick = (event) => {
+      //   console.log(event)
+      // }
 
       // const renderSingleCard = (card) => {
       // //   inside here create all the elements for a single card and I've already set up the function for a new card

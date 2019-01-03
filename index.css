@@ -62,6 +62,12 @@ transition: background 0.6s;
   background-size: contain;
 }
 
+.edit-btn {
+  text-align: center;
+  font-size: 15px;
+  background-color: turquoise;
+}
+
 button {
   position: relative;
   background-color: #426581;
