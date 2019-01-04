@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
       const endPoint = 'http://localhost:3000/api/v1/categories';
+      const greetingCardUrl = 'http://localhost:3000/api/v1/greeting_cards';
       const addBtn = document.querySelector('#new-card-btn');
       const cardForm = document.querySelector('.container');
       const realForm = document.querySelector(".add-card-form");
@@ -57,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class='card card-image' id='greeting-card-${greeting_card.id}'>
                 <h3>${greeting_card.title}</h3>
                 <h4>${greeting_card.description}</h4>
-                <button class='edit-btn' id='edit-btn-${greeting_card.id}'>Customize this Card!</button>
               </div>`;
               cardListEl.innerHTML += markup;
               let cardImage = document.querySelector(`#greeting-card-${greeting_card.id}`);
@@ -85,9 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
       //   console.log(event)
       // }
 
-      // const renderSingleCard = (card) => {
-      // //   inside here create all the elements for a single card and I've already set up the function for a new card
-      // }
+      const renderSingleCard = (card) => {
+        const cardEl = document.createElement("div")
+        cardEl.className = "card"
+        cardEl.dataset.id = card.id
+        cardEl.innerHTML = `
+          <div class='card card-image' id='greeting-card-${card.id}' style="background-image: url("${card.image}")">
+            <h3>${card.title}</h3>
+            <h4>${card.description}</h4>
+          </div>
+        `;
+        cardListEl.appendChild(cardEl)
+      }
 
       addBtn.addEventListener('click', () => {
           addCard = !addCard
@@ -104,17 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
           e.preventDefault()
 
           let inputs = document.querySelectorAll(".input-text");
+          let categorySelect = document.querySelector("select");
           let title = inputs[0].value;
           let description = inputs[1].value;
           let image = inputs[2].value;
-          let category = inputs[3].value
-
+          let category = categorySelect.value
 
           let data = {
               title: title,
               description: description,
               image: image,
-              category_id: category,
+              category_id: category
           }
 
           let fetchData = {
@@ -126,10 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
               }
           }
 
-          fetch(url, fetchData)
+          fetch(greetingCardUrl, fetchData)
               .then(resp => resp.json())
               .then(renderSingleCard)
 
       }
 
 });
+
+  // -----------edit button for single card--------------------
+  // <button class='edit-btn' id='edit-btn-${greeting_card.id}'>Customize this Card!</button>
