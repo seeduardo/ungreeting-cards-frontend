@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const renderCategory = singleCategory => {
-          console.log(singleCategory)
           categoryListEl.style.display = 'none';
           cardListEl.innerHTML = '';
           singleCategory.greeting_cards.forEach(greeting_card => {
