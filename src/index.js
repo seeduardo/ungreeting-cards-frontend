@@ -54,25 +54,25 @@ document.addEventListener('DOMContentLoaded', () => {
           categoryListEl.style.display = 'none';
           cardListEl.innerHTML = '';
           singleCategory.greeting_cards.forEach(greeting_card => {
-              const markup = `
-              <div class='card card-image' id='greeting-card-${greeting_card.id}'>
-                <h3>${greeting_card.title}</h3>
-                <h4>${greeting_card.description}</h4>
-              </div>`;
-              cardListEl.innerHTML += markup;
-              let cardImage = document.querySelector(`#greeting-card-${greeting_card.id}`);
-              cardImage.style.backgroundImage =`url(${greeting_card.image})`;
-              // let cardEditButton = document.querySelector(`#edit-btn-${greeting_card.id}`);
-              // cardEditButton.addEventListener('click', (event) => {
-              //   handleEditButtonClick(event)
-              // });
+               let singleCardElInCategory = document.createElement('div');
+               singleCardElInCategory.className = 'card card-image';
+               singleCardElInCategory.id = `greeting-card-${greeting_card.id}`;
+               const markup = `
+                 <h3>${greeting_card.title}</h3>
+                 <h4>${greeting_card.description}</h4>
+               `;
+               singleCardElInCategory.innerHTML = markup;
+               singleCardElInCategory.style.backgroundImage =`url(${greeting_card.image})`;
+               singleCardElInCategory.addEventListener('click', (event) => {
+                 handleSingleCardClick(event, greeting_card)
+               });
+               cardListEl.appendChild(singleCardElInCategory)
           });
           let backToCategoriesEl = document.createElement('p');
           backToCategoriesEl.setAttribute("id", "back-to-categories")
           backToCategoriesEl.innerHTML = "Still feeling mean and want to see all of the Card Categories again? Just click <strong>HERE</strong>."
           cardListEl.appendChild(backToCategoriesEl);
-          let backToCategories = document.querySelector('#back-to-categories');
-          backToCategories.addEventListener('click', event => handleBackToCategoriesClick(event));
+          backToCategoriesEl.addEventListener('click', event => handleBackToCategoriesClick(event));
           cardListEl.style.display = 'block';
       };
 
@@ -81,21 +81,41 @@ document.addEventListener('DOMContentLoaded', () => {
           categoryListEl.style.display = 'block';
       };
 
-      // const handleEditButtonClick = (event) => {
-      //   console.log(event)
-      // }
+      const handleSingleCardClick = (event, greeting_card) => {
+          cardListEl.style.display = 'none';
+          let singleCardEl = document.createElement('div');
+          const markup = `
+            <h3>${greeting_card.title}</h3>
+            <h4>${greeting_card.description}</h4>
+            <img src="${greeting_card.image}">
+            <button class='edit-btn' id='edit-btn-${greeting_card.id}'>Customize this Card!</button>
+          `;
+          singleCardEl.innerHTML = markup;
+          document.body.appendChild(singleCardEl);
+          let backToCategoryEl = document.createElement('p');
+          backToCategoryEl.setAttribute("id", "back-to-category")
+          backToCategoryEl.innerHTML = "Still feeling mean and want to see all of this Card Category again? Just click <strong>HERE</strong>."
+          singleCardEl.appendChild(backToCategoryEl);
+          backToCategoryEl.addEventListener('click', (event) => handleBackToCategoryClick(event, singleCardEl));
+          singleCardEl.style.display = 'block';
+      };
+
+      const handleBackToCategoryClick = (event, singleCardEl) => {
+          singleCardEl.style.display = 'none';
+          cardListEl.style.display = 'block';
+      };
 
       const renderSingleCard = (card) => {
-        const cardEl = document.createElement("div")
-        cardEl.className = "card"
-        cardEl.dataset.id = card.id
-        cardEl.innerHTML = `
-          <div class='card card-image' id='greeting-card-${card.id}' style="background-image: url("${card.image}")">
-            <h3>${card.title}</h3>
-            <h4>${card.description}</h4>
-          </div>
-        `;
-        cardListEl.appendChild(cardEl)
+          const cardEl = document.createElement("div")
+          cardEl.className = "card"
+          cardEl.dataset.id = card.id
+          cardEl.innerHTML = `
+            <div class='card card-image' id='greeting-card-${card.id}' style="background-image: url("${card.image}")">
+              <h3>${card.title}</h3>
+              <h4>${card.description}</h4>
+            </div>
+          `;
+          cardListEl.appendChild(cardEl)
       }
 
       addBtn.addEventListener('click', () => {
