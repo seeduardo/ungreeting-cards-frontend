@@ -9,20 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const categoryListEl = document.querySelector('#categories-list')
       const cardListEl = document.querySelector('#greeting-card-list')
 
-      // API.getCategories()
-      // .then(category => category.greeting_cards.forEach(
-      //     greeting_card => {
-      //         const markup = `
-      //     <li>
-      //       <h3>${greeting_card.title}
-      //         <button>edit</button>
-      //       </h3>
-      //     </li>`;
-      //         document.querySelector('#greeting_cards-list').innerHTML += markup;
-      //     }
-      // ))
-
-
       fetch(endPoint)
           .then(res => res.json())
           .then(json => {
@@ -51,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const renderCategory = singleCategory => {
+          console.log(singleCategory)
           categoryListEl.style.display = 'none';
           cardListEl.innerHTML = '';
           singleCategory.greeting_cards.forEach(greeting_card => {
@@ -70,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           let backToCategoriesEl = document.createElement('p');
           backToCategoriesEl.setAttribute("id", "back-to-categories")
-          backToCategoriesEl.innerHTML = "Still feeling mean and want to see all of the Card Categories again? Just click <strong>HERE</strong>."
+          backToCategoriesEl.innerHTML = `You are currently in the ${singleCategory.name} category. Still feeling mean and want to see all of the Card Categories again? Just click <strong>HERE</strong>.`
           cardListEl.appendChild(backToCategoriesEl);
           backToCategoriesEl.addEventListener('click', event => handleBackToCategoriesClick(event));
           cardListEl.style.display = 'block';
@@ -85,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
           cardListEl.style.display = 'none';
           let singleCardEl = document.createElement('div');
           const markup = `
-            <h3>${greeting_card.title}</h3>
-            <h4>${greeting_card.description}</h4>
-            <img src="${greeting_card.image}">
-            <button class='edit-btn' id='edit-btn-${greeting_card.id}'>Customize this Card!</button>
+           
+            <h3 contenteditable="true">${greeting_card.title}</h3>
+            <h4 contenteditable="true">${greeting_card.description}</h4>
+            <img src="${greeting_card.image}"> 
           `;
           singleCardEl.innerHTML = markup;
           document.body.appendChild(singleCardEl);
@@ -97,6 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
           backToCategoryEl.innerHTML = "Still feeling mean and want to see all of this Card Category again? Just click <strong>HERE</strong>."
           singleCardEl.appendChild(backToCategoryEl);
           backToCategoryEl.addEventListener('click', (event) => handleBackToCategoryClick(event, singleCardEl));
+          let editBtn = document.querySelector('.edit-btn');
+          editBtn.addEventListener('click', (event) => console.log(event, singleCardEl))
           singleCardEl.style.display = 'block';
       };
 
@@ -128,6 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
               cardForm.style.display = 'none'
           }
       })
+
+      function updateSingleCard(eCard) {
+          
+         
+      }
 
       function createNewCard(e) {
           e.preventDefault()
@@ -163,5 +157,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-  // -----------edit button for single card--------------------
-  // <button class='edit-btn' id='edit-btn-${greeting_card.id}'>Customize this Card!</button>
+  
