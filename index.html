@@ -17,6 +17,20 @@
     <div class="container">
         <form class="add-card-form" style="">
             <h2>Create a card!</h2>
+            <select name="categories">
+              <option value="" disabled selected>Choose a category...</option>
+              <option value="birthday">Birthday</option>
+              <option value="wedding">Wedding</option>
+              <option value="new baby">New Baby</option>
+              <option value="anniversary">Anniversary</option>
+              <option value="condolences">Condolences</option>
+              <option value="xmas/religious holiday">Xmas/Religious Holiday</option>
+              <option value="thank you">Thank You</option>
+              <option value="bf/gf/spouse">BF/GF/Spouse</option>
+              <option value="get well soon">Get Well Soon</option>
+              <option value="general">General</option>
+            </select>
+            <br>
             <input type="text" name="title" value="" placeholder="Enter a card's title..." class="input-text">
             <br>
             <input type="text" name="description" value="" placeholder="Enter a card's description..." class="input-text">
@@ -35,7 +49,7 @@
     <div id='greeting-card-list'>
 
     </div>
-  
+
     <script src="src/index.js"></script>
     <script src="src/API.js"></script>
 </body>
